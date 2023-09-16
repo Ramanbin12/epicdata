@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { applyMiddleware } from "@reduxjs/toolkit";
 import { createEpicMiddleware } from "redux-observable";
 import { RootEpics } from "../Epics/rootEpic";
 import dataSlices from "./slices"

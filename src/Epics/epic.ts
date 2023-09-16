@@ -1,11 +1,10 @@
 import axios from "axios"
-import {setTitle,setData} from "../redux/slices"
-import { Observable, from, of } from 'rxjs';
-import {filter,debounceTime, mergeMap,map} from "rxjs/operators"
+import {setTitle,setData,errorFetchedData} from "../redux/slices"
+import { Observable,of, from} from 'rxjs';
+import {filter,debounceTime,catchError,takeUntil, mergeMap,map} from "rxjs/operators"
 import { StateObservable } from "redux-observable";
 import { RootAction, RootState } from "../type";
 async function getData(){
-    console.log('------------------');
     const response=await axios.get('https://jsonplaceholder.typicode.com/posts');
     return response.data;
 }
@@ -18,6 +17,11 @@ export const getDataEpic=(action$: Observable<RootAction> ,state$: StateObservab
                 map((res:Record<string,string>)=>{
                     console.log(res);
                     return setData(res);
+                }),
+                takeUntil(action$.pipe(filter(setTitle.match))),
+                catchError((error)=>{
+                    console.log("error",typeof(error))
+                    return of(errorFetchedData(error.message))
                 })
             )
         })
