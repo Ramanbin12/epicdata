@@ -1,20 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState={
-    title:[]
+    loading:false,
+    title:[],
+    error:""
 }
 const dataSlices=createSlice({
     name:"data",
     initialState,
     reducers:{
-        setTitle:(state,action)=> { state.title = action.payload} ,
+        setTitle:(state,action)=> { 
+            state.loading=true;
+            } ,
         setData:(state,action)=>{
-            console.log("pyload",action.payload)
+            console.log("pyload",action.payload);
+            state.loading=false;
             state.title=action.payload
+            state.error=""
             console.log("state data",state.title)
         },
-        setExample:() => {},
-    }
+        errorFetchedData:(state,action)=>{
+            state.error=action.payload;
+            state.loading=false
+            state.title=[]
+        }
+        }
 })
-export const {setTitle, setExample,setData} =dataSlices.actions;
+export const {setTitle,errorFetchedData ,setData} =dataSlices.actions;
 export default dataSlices.reducer;
-export type DataActions = ReturnType<typeof setTitle>  | ReturnType<typeof setExample>;
+export type DataActions = ReturnType<typeof setTitle>  | ReturnType<typeof setData>;
