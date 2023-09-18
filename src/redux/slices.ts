@@ -12,11 +12,9 @@ const dataSlices=createSlice({
             state.loading=true;
             } ,
         setData:(state,action)=>{
-            console.log("pyload",action.payload);
             state.loading=false;
             state.title=action.payload
             state.error=""
-            console.log("state data",state.title)
         },
         errorFetchedData:(state,action)=>{
             state.error=action.payload;

@@ -1,4 +1,5 @@
 import {combineEpics} from "redux-observable"
 import {getDataEpic} from "./epic"
-const epics=[getDataEpic];
+import { postdata } from "./postEpic";
+const epics=[getDataEpic,postdata];
 export const RootEpics= combineEpics(...epics)

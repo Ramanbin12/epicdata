@@ -15,12 +15,10 @@ export const getDataEpic=(action$: Observable<RootAction> ,state$: StateObservab
         mergeMap(()=>{
             return from(getData()).pipe(
                 map((res:Record<string,string>)=>{
-                    console.log(res);
                     return setData(res);
                 }),
                 takeUntil(action$.pipe(filter(setTitle.match))),
                 catchError((error)=>{
-                    console.log("error",typeof(error))
                     return of(errorFetchedData(error.message))
                 })
             )
